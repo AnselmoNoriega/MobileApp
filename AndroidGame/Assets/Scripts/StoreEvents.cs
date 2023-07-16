@@ -13,8 +13,8 @@ public class StoreEvents : MonoBehaviour
     [SerializeField]
     private GameObject otherStoreObject;
 
-    public bool _shouldClose;
-    public float temp;
+    private bool _shouldClose;
+
     private void Start()
     {
         _shouldClose = false;
@@ -22,13 +22,11 @@ public class StoreEvents : MonoBehaviour
 
     private void Update()
     {
-        if (store.transform.position.y <= -9 && _shouldClose)
+        if (store.transform.position.y <= -10.41 && _shouldClose)
         {
             _shouldClose = false;
             store.SetActive(false);
         }
-
-        temp = store.transform.position.y;
     }
 
     public void StoreHandler()
@@ -43,6 +41,7 @@ public class StoreEvents : MonoBehaviour
             {
                 otherStore.StoreHandler();
             }
+
             _shouldClose = true;
             store.SetActive(true);
         }
