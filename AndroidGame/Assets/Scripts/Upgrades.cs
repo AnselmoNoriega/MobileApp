@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[System.Serializable]
 public class Upgrades : MonoBehaviour
 {
     [SerializeField]
@@ -19,18 +21,50 @@ public class Upgrades : MonoBehaviour
     private int _cookieLevel;
     private int _extraOnClickPoints;
 
+    private List<int> listKeys = new List<int>()
+    {
+        45,
+        74,
+        127,
+        1004
+    };
+
+    private List<string> keys = new List<string>()
+    {
+        "Score",
+        "Points",
+        "pointsOnClick",
+        "timeCount",
+        "PricesNums",
+        "extrapoints",
+        "cookieLevel",
+        "extraOnClickPoints"
+    };
+
     private void Start()
     {
+        score.score = PlayerPrefs.GetInt(keys[0], 0);
+        score.points = PlayerPrefs.GetInt(keys[1], 10);
+        score.pointsOnClick = PlayerPrefs.GetInt(keys[2], 1);
+        score.timeCount = PlayerPrefs.GetFloat(keys[3], 10);
+
+        DeSerializeList();
+        _extrapoints = PlayerPrefs.GetInt(keys[5], 0);
+        _cookieLevel = PlayerPrefs.GetInt(keys[6], 1);
+        _extraOnClickPoints = PlayerPrefs.GetInt(keys[7], 0);
+
         for (int i = 0; i < pricesNums.Count; i++)
         {
             prices[i].text = "$ " + pricesNums[i].ToString();
         }
 
-        _cookieLevel = 1;
-        _extrapoints = 0;
-        _extraOnClickPoints = 0;
+        this.transform.parent.parent.gameObject.SetActive(false);
     }
 
+    private void OnApplicationQuit()
+    {
+        SeerializeData();
+    }
     public void MoreCookiesGained()
     {
         if (pricesNums[0] <= score.score)
@@ -38,7 +72,8 @@ public class Upgrades : MonoBehaviour
             _extrapoints += (1 * _cookieLevel);
             score.points += _extrapoints;
             score.score -= pricesNums[0];
-            pricesNums[0] *= 2;
+            pricesNums[0] *= 3;
+            prices[0].text = "$ " + pricesNums[0].ToString();
         }
     }
 
@@ -50,6 +85,7 @@ public class Upgrades : MonoBehaviour
             score.pointsOnClick += _extraOnClickPoints;
             score.score -= pricesNums[1];
             pricesNums[1] *= 2;
+            prices[1].text = "$ " + pricesNums[1].ToString();
         }
     }
 
@@ -59,7 +95,8 @@ public class Upgrades : MonoBehaviour
         {
             score.timeCount /= 1 + (_cookieLevel / 10);
             score.score -= pricesNums[2];
-            pricesNums[2] *= 2;
+            pricesNums[2] *= 4;
+            prices[2].text = "$ " + pricesNums[2].ToString();
         }
     }
 
@@ -69,7 +106,38 @@ public class Upgrades : MonoBehaviour
         {
             _cookieLevel += 1;
             score.score -= pricesNums[3];
-            pricesNums[3] *= 2;
+            pricesNums[3] *= 3;
+            prices[3].text = "$ " + pricesNums[3].ToString();
         }
+    }
+
+    private void SerializeList()
+    {
+        for (int i = 0; i < pricesNums.Count; i++)
+        {
+            PlayerPrefs.SetInt(listKeys[i].ToString(), pricesNums[i]);
+        }
+    }
+
+    private void DeSerializeList()
+    {
+        for (int i = 0; i < listKeys.Count; i++)
+        {
+            pricesNums[i] = PlayerPrefs.GetInt(listKeys[i].ToString(), listKeys[i]);
+        }
+    }
+
+    private void SeerializeData()
+    {
+        PlayerPrefs.SetInt(keys[0], score.score);
+        PlayerPrefs.SetInt(keys[1], score.points);
+        PlayerPrefs.SetInt(keys[2], score.pointsOnClick);
+        PlayerPrefs.SetFloat(keys[3], score.timeCount);
+
+        SerializeList();
+        PlayerPrefs.SetInt(keys[5], _extrapoints);
+        PlayerPrefs.SetInt(keys[6], _cookieLevel);
+        PlayerPrefs.SetInt(keys[7], _extraOnClickPoints);
+        PlayerPrefs.Save();
     }
 }

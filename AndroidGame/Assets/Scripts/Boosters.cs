@@ -12,8 +12,6 @@ public class Boosters : MonoBehaviour
     private List<TextMeshProUGUI> pricesText;
     [SerializeField]
     private List<float> pricesNums;
-    [SerializeField]
-    private List<int> boostAmount;
 
     private bool _isTimerActive;
     private float _countDown;
@@ -33,15 +31,20 @@ public class Boosters : MonoBehaviour
         TimerLogic();
     }
 
-    public void BoostTime(int boosterIndex)
+    public void BoostTime(int boobustAmount)
     {
         if (!_isTimerActive)
         {
-            score.boostTime = boostAmount[boosterIndex];
+            score.boostTime = boobustAmount;
             //wallet -= pricesNums[boosterIndex];
             _countDown = 30.0f;
             _isTimerActive = true;
         }
+    }
+
+    public void ExtraPoints(int points)
+    {
+        score.score += points;
     }
 
     private void TimerLogic()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[System.Serializable]
 public class Points : MonoBehaviour
 {
     [SerializeField]
@@ -17,11 +18,16 @@ public class Points : MonoBehaviour
 
     void Start()
     {
-        score = 0;
-        pointsOnClick = 1;
-        boostTime = 1;
-        points = 10;
-        timeCount = 10;
+        _currentTime = 0;
+
+        if (pointsOnClick == 0)
+        {
+            score = 0;
+            pointsOnClick = 1;
+            boostTime = 1;
+            points = 10;
+            timeCount = 10;
+        }
     }
 
     void Update()
