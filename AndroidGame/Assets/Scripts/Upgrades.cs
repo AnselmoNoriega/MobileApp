@@ -57,6 +57,8 @@ public class Upgrades : MonoBehaviour
         {
             prices[i].text = "$ " + pricesNums[i].ToString();
         }
+
+        this.transform.parent.parent.gameObject.SetActive(false);
     }
 
     private void OnApplicationQuit()
