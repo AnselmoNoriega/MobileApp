@@ -41,7 +41,7 @@ public class Upgrades : MonoBehaviour
         "extraOnClickPoints"
     };
 
-    private void Start()
+    private void Awake()
     {
         score.score = PlayerPrefs.GetInt(keys[0], 0);
         score.points = PlayerPrefs.GetInt(keys[1], 10);
@@ -57,8 +57,6 @@ public class Upgrades : MonoBehaviour
         {
             prices[i].text = "$ " + pricesNums[i].ToString();
         }
-
-        this.transform.parent.parent.gameObject.SetActive(false);
     }
 
     private void OnApplicationQuit()
