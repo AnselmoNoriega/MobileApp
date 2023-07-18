@@ -41,26 +41,6 @@ public class Upgrades : MonoBehaviour
         "extraOnClickPoints"
     };
 
-    private void Awake()
-    {
-        score.score = PlayerPrefs.GetInt(keys[0], 0);
-        score.points = PlayerPrefs.GetInt(keys[1], 10);
-        score.pointsOnClick = PlayerPrefs.GetInt(keys[2], 1);
-        score.timeCount = PlayerPrefs.GetFloat(keys[3], 10);
-
-        DeSerializeList();
-        _extrapoints = PlayerPrefs.GetInt(keys[5], 0);
-        _cookieLevel = PlayerPrefs.GetInt(keys[6], 1);
-        _extraOnClickPoints = PlayerPrefs.GetInt(keys[7], 0);
-
-        for (int i = 0; i < pricesNums.Count; i++)
-        {
-            prices[i].text = "$ " + pricesNums[i].ToString();
-        }
-
-        this.transform.parent.parent.gameObject.SetActive(false);
-    }
-
     private void OnApplicationQuit()
     {
         SeerializeData();
@@ -119,6 +99,26 @@ public class Upgrades : MonoBehaviour
         }
     }
 
+    public void Deserialize()
+    {
+        score.score = PlayerPrefs.GetInt(keys[0], 0);
+        score.points = PlayerPrefs.GetInt(keys[1], 10);
+        score.pointsOnClick = PlayerPrefs.GetInt(keys[2], 1);
+        score.timeCount = PlayerPrefs.GetFloat(keys[3], 10);
+
+        DeSerializeList();
+        _extrapoints = PlayerPrefs.GetInt(keys[5], 0);
+        _cookieLevel = PlayerPrefs.GetInt(keys[6], 1);
+        _extraOnClickPoints = PlayerPrefs.GetInt(keys[7], 0);
+
+        for (int i = 0; i < pricesNums.Count; i++)
+        {
+            prices[i].text = "$ " + pricesNums[i].ToString();
+        }
+
+        this.transform.parent.parent.gameObject.SetActive(false);
+    }
+
     private void DeSerializeList()
     {
         for (int i = 0; i < listKeys.Count; i++)
@@ -127,7 +127,7 @@ public class Upgrades : MonoBehaviour
         }
     }
 
-    private void SeerializeData()
+    public void SeerializeData()
     {
         PlayerPrefs.SetInt(keys[0], score.score);
         PlayerPrefs.SetInt(keys[1], score.points);
